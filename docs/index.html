@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acme Motors Databricks Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">Databricks · Foundation Model · Function Calling · Delta Tables</p>
+      <h1>Acme Motors Dealership Assistant</h1>
+      <p class="subtitle">
+        A Databricks learning portfolio that uses a foundation model as a function router.
+        The LLM selects safe business functions, Python executes controlled queries, and
+        Delta Tables provide the source of truth.
+      </p>
+
+      <div class="buttons">
+        <a href="notebooks/06_end_to_end_assistant.html" class="button primary">
+          View End-to-End Notebook
+        </a>
+        <a href="https://github.com/TU_USUARIO/databricks-acme-motors-assistant" class="button secondary">
+          View GitHub Repo
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Business Problem</h2>
+      <p>
+        A dealership manager wants to ask sales questions in natural language, such as:
+        “How many F150 trucks did I sell this month?” The assistant must not hallucinate
+        numbers or generate arbitrary SQL.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Architecture</h2>
+      <pre>
+User question
+↓
+Databricks Foundation Model via ai_query
+↓
+Structured JSON function call
+↓
+Python FunctionRegistry
+↓
+Safe Spark SQL query
+↓
+auto_sales_transactions Delta Table
+↓
+Final answer + audit log
+      </pre>
+    </section>
+
+    <section class="card">
+      <h2>Key Design Decision</h2>
+      <blockquote>
+        The LLM routes. Python executes. Delta is the source of truth.
+      </blockquote>
+      <p>
+        The model does not calculate sales numbers, does not generate SQL, and does not access
+        arbitrary tables. It only selects from approved functions.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Notebook Walkthrough</h2>
+      <div class="grid">
+        <a class="notebook" href="notebooks/01_create_auto_sales_delta_table.html">
+          <strong>01 · Auto Sales Delta Table</strong>
+          <span>Create mock sales data, schema, quality checks, and Delta table.</span>
+        </a>
+
+        <a class="notebook" href="notebooks/02_manual_business_queries.html">
+          <strong>02 · Manual Business Queries</strong>
+          <span>Validate SQL queries before converting them into safe functions.</span>
+        </a>
+
+        <a class="notebook" href="notebooks/03_function_catalog.html">
+          <strong>03 · Function Catalog</strong>
+          <span>Define allowed functions, arguments, examples, and JSON outputs.</span>
+        </a>
+
+        <a class="notebook" href="notebooks/04_python_function_registry.html">
+          <strong>04 · Function Registry</strong>
+          <span>Build the Python object that validates and executes functions.</span>
+        </a>
+
+        <a class="notebook" href="notebooks/05_foundation_model_router.html">
+          <strong>05 · Foundation Model Router</strong>
+          <span>Use Databricks ai_query to convert questions into function calls.</span>
+        </a>
+
+        <a class="notebook" href="notebooks/06_end_to_end_assistant.html">
+          <strong>06 · End-to-End Assistant</strong>
+          <span>Connect router, registry, Delta query, answer, and audit log.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Example Interaction</h2>
+      <p><strong>User question:</strong></p>
+      <pre>Cuántas F150 he vendido este mes?</pre>
+
+      <p><strong>Foundation model router output:</strong></p>
+      <pre>{
+  "function_name": "get_product_sales_summary",
+  "arguments": {
+    "product_model": "F150",
+    "date_range": "this_month"
+  }
+}</pre>
+
+      <p><strong>Final answer from Delta Table:</strong></p>
+      <pre>For this_month, F150 sold 5 units with $266,500.00 total revenue and an average sale price of $53,300.00.</pre>
+    </section>
+
+    <section class="card">
+      <h2>What This Demonstrates</h2>
+      <ul>
+        <li>Databricks notebooks</li>
+        <li>PySpark DataFrames</li>
+        <li>Delta Tables</li>
+        <li>SQL over business data</li>
+        <li>Databricks Foundation Model routing with ai_query</li>
+        <li>Prompt-as-function design</li>
+        <li>Python OOP with FunctionRegistry</li>
+        <li>Safe query execution</li>
+        <li>Audit logging</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
